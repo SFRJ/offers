@@ -3,7 +3,10 @@ This is a Spring based app, I did for a code screening. The exercise was given t
 The tools iv'e chosen to develop it are:
 Spring(boot, web), modelmapper, java 8, lombok, assertJ, mockito
 
-Comments/Assumptions
+Post development comments:
+I've chosen Spring web+boot an lobock as my main tools. The reason I selected those is just because they significantly reduce the ammount of boilerplate.
+
+I did record a demo of the application, it can be found here: http://javing.blogspot.com/2020/02/restful-app-demo-and-explanation.html
 
 I created Request objects/DTO's(Data Transfer Objects) that I use them in Controllers. The domain objects are not
 needed until we reach the service. This allows me to have more lean Controllers that only know about what is 
@@ -21,3 +24,26 @@ to customise the error message. This implementation does not require of the cust
 could be used. But having them allows for more informative feedback to the end client. Because those exceptions relate
 to the domain, I left them in the domain package.
     
+To boot the app:
+```
+./gradlew bootRun
+```
+
+Sample Requests:
+```
+curl --location --request POST 'http://localhost:8080/offers/create' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"description": "Offer Details",
+	"price": "2.50",
+	"currency": "GBP",
+	"expiration": "2020-02-15"
+}'
+
+
+curl --location --request GET 'http://localhost:8080/offers/d8a73bfc-7aaa-4097-896c-ecb0ee25c441'
+
+
+
+curl --location --request GET 'http://localhost:8080/offers/d8a73bfc-7aaa-4097-896c-ecb0ee25c441/cancel'
+```
