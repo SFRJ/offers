@@ -23,6 +23,11 @@ way of implementing exception handling. The translator translates to a value obj
 to customise the error message. This implementation does not require of the custom exceptions, ordinary RuntimeExceptions
 could be used. But having them allows for more informative feedback to the end client. Because those exceptions relate
 to the domain, I left them in the domain package.
+
+I spotted bug after I did the the demo, basically I didn't train my mock to have an expiration time in the retrieval scenario
+and I totally forgot to test that when we are reading an offer, it needs to check if it is expired. So I added a bug fix for that
+I just want to mention that cancelling the the offer at retrival if it has expired does work but in a real life scenario probably
+an async service should review the data in the db in the case is expired and mark it as expired.
     
 To boot the app:
 ```
