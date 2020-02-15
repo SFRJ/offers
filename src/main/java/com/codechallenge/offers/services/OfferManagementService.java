@@ -31,7 +31,12 @@ public class OfferManagementService {
 
     public Offer getOffer(UUID offerId) {
 
-        return offersRepository.readOffer(offerId)
+        return offersRepository.readOffer(offerId).map(offer -> {
+            if(LocalDate.now().isAfter(offer.getExpirationDate())) {
+                cancelOffer(offer);
+            }
+            return offer;
+        })
                 .orElseThrow(() -> new OfferNotFoundException("Unable to find offer with id " + offerId));
     }
 
@@ -39,9 +44,12 @@ public class OfferManagementService {
 
         Offer toBeCancelled = getOffer(offerId);
         toBeCancelled.setOfferStatus(CANCELLED);
-        offersRepository.cancelOffer(toBeCancelled);
-
+        cancelOffer(toBeCancelled);
         return toBeCancelled;
+    }
+
+    private void cancelOffer(Offer offer) {
+        offersRepository.cancelOffer(offer);
     }
 
 }

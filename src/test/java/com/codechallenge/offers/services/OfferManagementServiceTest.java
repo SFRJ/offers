@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,7 +46,10 @@ public class OfferManagementServiceTest {
     public void shouldGetOffer() {
 
         UUID someIdentifier = UUID.randomUUID();
-        Offer offer = Offer.builder().identifier(someIdentifier).build();
+        Offer offer = Offer.builder()
+                .expirationDate(LocalDate.now().minusDays(1))
+                .identifier(someIdentifier)
+                .build();
         Mockito.when(offersRepository.readOffer(someIdentifier)).thenReturn(Optional.of(offer));
 
         assertThat(offerManagementService.getOffer(someIdentifier)).isEqualTo(offer);
@@ -67,7 +71,10 @@ public class OfferManagementServiceTest {
     public void shouldCancelOffer() {
 
         UUID offerId = UUID.randomUUID();
-        Offer offer = Offer.builder().identifier(offerId).offerStatus(OfferStatus.ACTIVE).build();
+        Offer offer = Offer.builder()
+                .expirationDate(LocalDate.now().minusDays(1))
+                .identifier(offerId)
+                .offerStatus(OfferStatus.ACTIVE).build();
         Mockito.when(offersRepository.readOffer(offerId)).thenReturn(Optional.of(offer));
 
         Offer canceledOffer = offerManagementService.cancelOffer(offerId);
