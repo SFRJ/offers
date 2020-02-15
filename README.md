@@ -3,7 +3,10 @@ This is a Spring based app, I did for a code screening. The exercise was given t
 The tools iv'e chosen to develop it are:
 Spring(boot, web), modelmapper, java 8, lombok, assertJ, mockito
 
-Comments/Assumptions
+Post development comments:
+I've chosen Spring web+boot an lobock as my main tools. The reason I selected those is just because they significantly reduce the ammount of boilerplate.
+
+I did record a demo of the application, it can be found here: http://javing.blogspot.com/2020/02/restful-app-demo-and-explanation.html
 
 I created Request objects/DTO's(Data Transfer Objects) that I use them in Controllers. The domain objects are not
 needed until we reach the service. This allows me to have more lean Controllers that only know about what is 
@@ -26,7 +29,7 @@ To boot the app:
 ./gradlew bootRun
 ```
 
-Sample Request:
+Sample Requests:
 ```
 curl --location --request POST 'http://localhost:8080/offers/create' \
 --header 'Content-Type: application/json' \
