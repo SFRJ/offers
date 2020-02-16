@@ -33,7 +33,8 @@ public class OfferManagementService {
 
         return offersRepository.readOffer(offerId).map(offer -> {
             if(LocalDate.now().isAfter(offer.getExpirationDate())) {
-                cancelOffer(offer);
+                offer.setOfferStatus(CANCELLED);
+                offersRepository.cancelOffer(offer);
             }
             return offer;
         })
@@ -44,13 +45,8 @@ public class OfferManagementService {
 
         Offer toBeCancelled = getOffer(offerId);
         toBeCancelled.setOfferStatus(CANCELLED);
-        cancelOffer(toBeCancelled);
+        offersRepository.cancelOffer(toBeCancelled);
         return toBeCancelled;
-    }
-
-    private void cancelOffer(Offer offer) {
-        offer.setOfferStatus(CANCELLED);
-        offersRepository.cancelOffer(offer);
     }
 
 }
