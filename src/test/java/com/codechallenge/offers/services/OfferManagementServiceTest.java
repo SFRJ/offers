@@ -43,16 +43,35 @@ public class OfferManagementServiceTest {
     }
 
     @Test
-    public void shouldGetOffer() {
+    public void shouldGetCancelledOffer() {
 
         UUID someIdentifier = UUID.randomUUID();
         Offer offer = Offer.builder()
                 .expirationDate(LocalDate.now().minusDays(1))
+                .offerStatus(OfferStatus.ACTIVE)
                 .identifier(someIdentifier)
                 .build();
         Mockito.when(offersRepository.readOffer(someIdentifier)).thenReturn(Optional.of(offer));
 
-        assertThat(offerManagementService.getOffer(someIdentifier)).isEqualTo(offer);
+        Offer result = offerManagementService.getOffer(someIdentifier);
+        assertThat(result.getIdentifier()).isEqualTo(someIdentifier);
+        assertThat(result.getOfferStatus()).isEqualTo(OfferStatus.CANCELLED);
+    }
+
+    @Test
+    public void shouldGetActiveOffer() {
+
+        UUID someIdentifier = UUID.randomUUID();
+        Offer offer = Offer.builder()
+                .expirationDate(LocalDate.now().plusDays(1))
+                .identifier(someIdentifier)
+                .offerStatus(OfferStatus.ACTIVE)
+                .build();
+        Mockito.when(offersRepository.readOffer(someIdentifier)).thenReturn(Optional.of(offer));
+
+        Offer result = offerManagementService.getOffer(someIdentifier);
+        assertThat(result.getIdentifier()).isEqualTo(someIdentifier);
+        assertThat(result.getOfferStatus()).isEqualTo(OfferStatus.ACTIVE);
     }
 
     @Test

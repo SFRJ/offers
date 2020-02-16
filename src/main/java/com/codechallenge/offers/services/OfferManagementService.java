@@ -49,6 +49,7 @@ public class OfferManagementService {
     }
 
     private void cancelOffer(Offer offer) {
+        offer.setOfferStatus(CANCELLED);
         offersRepository.cancelOffer(offer);
     }
 
